@@ -6,6 +6,7 @@
   var noteText = document.querySelector(".new-note__text"); // Текст
   var noteHead = document.querySelector(".new-note__head"); // Заголовок
   var btnSbmt = document.querySelector(".new-note__btn"); // Кнопка "Записать"
+  var notesCounter = 0;
 
   // Добавляем новую заметку
   function addNote() {
@@ -13,15 +14,15 @@
       console.log('Нет сообщения!');
       return;
     } else {
+      notesCounter++;
       var note = {
+        noteNumber: notesCounter,
         noteText: noteText.value,
         noteHead: noteHead.value
       };
-
       notes.push(note);
       renderNote(note);
     }
-    console.log(notes);
   }
 
   // Чистим textarea и input
@@ -47,27 +48,38 @@
     text.innerHTML = newNote.noteText;
     title.innerHTML = newNote.noteHead;
 
-    remove.addEventListener("click", function() {
-      var thisDiv = remove.parentNode;
-      var allNotes = document.querySelector(".new-note").childNodes.length;
-      console.log(allNotes);
-      allNotes.split('');
-      console.log(allNotes);
-    });
+    addRemoveListner(remove, newNote);
 
+    div.setAttribute("data-item-number", (newNote.noteNumber));
     div.appendChild(remove);
     div.appendChild(title);
     div.appendChild(text);
     mainDiv.appendChild(div);
-
-    
   }
+
 
   // Добавление новой заметки по клику на кнопку "Добавить"
   btnSbmt.addEventListener("click", function() {
     addNote();
     clearInputs();
   });
+
+  // Вешание события удаления
+  function addRemoveListner(remove, newNote) {
+    remove.addEventListener("click", function() {
+      var thisDiv = remove.parentNode,
+          thisNote = newNote.noteNumber,
+          arrayId,
+          thisNoteId = +thisDiv.getAttribute("data-item-number");
+      notes.forEach(function(element, index) {
+        if(element.noteNumber === thisNoteId) {
+          arrayId = index;
+        }
+      });
+      notes.splice(arrayId, 1);
+      thisDiv.parentNode.removeChild(thisDiv);
+    });
+  }
 
 }
 document.addEventListener("DOMContentLoaded", ready);
