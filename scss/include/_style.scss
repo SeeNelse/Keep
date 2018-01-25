@@ -1,0 +1,55 @@
+.wrapper {
+  width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+  margin-top: 30px;
+}
+
+.new-note {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto;
+  &__head {
+    padding: 4px;
+  }
+  &__text {
+    margin: 10px 0;
+    resize: none;
+    height: 100px;
+    padding: 4px;
+  }
+}
+
+.note-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  &__item {
+    width: 350px;
+    border: 1px solid #000;
+    background-color: #fff;
+    padding: 5px;
+    position: relative;
+    margin-bottom: 20px;
+    margin-right: 75px;
+    &:nth-child(3n+3) {
+      margin-right: 0;
+    }
+  }
+  &__head {
+    font-size: 18px;
+    margin: 0;
+  }
+  &__text {
+    font-size: 14px;
+  }
+  &__del {
+    position: absolute;
+    top: 2px;
+    right: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
