@@ -74,39 +74,55 @@
   max-width: 500px;
   margin: 0 auto;
   background-color: #fff;
+  transition: .5s;
   padding: 10px;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.2), 0 1px 5px 0 rgba(0,0,0,0.12);
   &__head {
+    display: none;
     padding: 4px;
     outline:none;
     border: none;
     font-weight: 600;
     color: #424242;
+    background: transparent;
+    margin-bottom: 10px;
   }
   &__text {
-    margin: 10px 0;
     resize: none;
-    // height: 100px;
-    height: auto;
     padding: 4px;
     outline:none;
     border: none;
     color: #424242;
+    background: transparent;
+    height: 25px;
+  }
+  &__bottom {
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
   }
   &__btn {
     font-size: 14px;
+    transition: .3s;
     font-weight: bold;
     color: #424242;
     border: none;
     background: none;
     outline:none;
     cursor: pointer;
+    &:hover {
+      background: #dbdbdb;
+      transition: .3s;
+    }
   }
   &-color {
     position: relative;
     &:hover {
       .new-note-color__div {
-        display: flex;
+        opacity: 1;
+        pointer-events: auto;
+        transition: .5s;
       }
     }
     &__btn {
@@ -115,7 +131,10 @@
       font-size: 16px;
     }
     &__div {
-      display: none;
+      display: flex;
+      opacity: 0;
+      pointer-events: none;
+      transition: .5s;
       width: 103px;
       flex-direction: row;
       flex-wrap: wrap;
@@ -151,9 +170,9 @@
         background-color: #c4b6b6;
         border: 2px solid #c4b6b6;
       }
-      &[data-note-color='#e87d7d'] {
-        background-color: #e87d7d;
-        border: 2px solid #e87d7d;
+      &[data-note-color='#e59292'] {
+        background-color: #e59292;
+        border: 2px solid #e59292;
       }
       &[data-note-color='#edb674'] {
         background-color: #edb674;
@@ -180,11 +199,6 @@
       }
     }
   }
-  &__bottom {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
 }
 
 .note-list {
@@ -196,6 +210,7 @@
     width: 225px;
     background-color: #fff;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    transition: .5s;
     padding: 15px;
     position: relative;
     margin-bottom: 20px;
@@ -205,6 +220,8 @@
       margin-right: 0;
     }
     &:hover {
+      box-shadow: 0px 0px 19px -5px rgba(0, 0, 0, 0.75);
+      transition: .5s;
       .note-list__del {
         opacity: 1;
         transition: .5s;
@@ -214,9 +231,11 @@
   &__head {
     font-size: 18px;
     margin: 0;
+    margin-bottom: 10px;
   }
   &__text {
-    font-size: 14px;
+    font-size: 16px;
+    margin: 0;
   }
   &__del {
     position: absolute;
