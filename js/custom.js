@@ -6,6 +6,7 @@
   var noteText = document.querySelector(".new-note__text"); // Текст
   var noteHead = document.querySelector(".new-note__head"); // Заголовок
   var btnSbmt = document.querySelector(".new-note__btn"); // Кнопка "Записать"
+  var btnColor = document.querySelector(".new-note-color__item");
   var notesCounter = 0;
 
   // Добавляем новую заметку
@@ -44,7 +45,7 @@
     text.className = "note-list__text";
     title.className = "note-list__head";
 
-    remove.innerHTML = "x";
+    remove.innerHTML = "<i class='icon-cancel'></i>";
     text.innerHTML = newNote.noteText;
     title.innerHTML = newNote.noteHead;
 

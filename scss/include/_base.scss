@@ -10,8 +10,12 @@ a:visited {text-decoration: none;}
 a:active {text-decoration: none;}
 a:focus {text-decoration: none;}
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   height: 100%;
-  font: 14px/24px 'Open Sans', sans-serif;
+  font: 14px/24px 'Roboto', sans-serif;
   background-color: #e8e8e8;
 }
