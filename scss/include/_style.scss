@@ -1,8 +1,17 @@
+.main-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  min-height: 100%;
+  position: relative;
+}
+
 .wrapper {
   width: 1240px;
   margin: 0 auto;
   padding: 0 20px;
   margin-top: 30px;
+  position: relative;
 }
 
 .header {
@@ -14,6 +23,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  order: 1;
   &__head {
     margin: 0;
     font-weight: 400;
@@ -68,10 +78,22 @@
   }
 }
 
+.footer {
+  min-height: 50px;
+  order: 3;
+  background-color: #e0e;
+}
+
+.main {
+  order: 2;
+  flex-grow: 1;
+  display: inherit;
+}
+
 .new-note {
   display: flex;
   flex-direction: column;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
   background-color: #fff;
   transition: .5s;
@@ -86,6 +108,7 @@
     color: #424242;
     background: transparent;
     margin-bottom: 10px;
+    font-size: 16px;
   }
   &__text {
     resize: none;
@@ -94,7 +117,8 @@
     border: none;
     color: #424242;
     background: transparent;
-    height: 25px;
+    height: 26px;
+    font-size: 16px;
   }
   &__bottom {
     display: none;
@@ -208,7 +232,7 @@
   margin-top: 20px;
   &__item {
     width: 225px;
-    background-color: #fff;
+    background-color: #ffffff;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     transition: .5s;
     padding: 15px;
@@ -216,9 +240,6 @@
     margin-bottom: 20px;
     margin-right: 15px;
     min-height: 200px;
-    &:nth-child(3n+5) {
-      margin-right: 0;
-    }
     &:hover {
       box-shadow: 0px 0px 19px -5px rgba(0, 0, 0, 0.75);
       transition: .5s;
@@ -231,11 +252,11 @@
   &__head {
     font-size: 18px;
     margin: 0;
-    margin-bottom: 10px;
   }
   &__text {
     font-size: 16px;
     margin: 0;
+    overflow-wrap: break-word;
   }
   &__del {
     position: absolute;
@@ -259,4 +280,102 @@
       margin-bottom: -1px;
     }
   }
+}
+
+.note-popup {
+  @extend .new-note;
+  width: 600px;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: none;
+  &__head {
+    @extend .new-note__head;
+    display: block;
+  }
+  &__text {
+    @extend .new-note__text;
+  }
+  &__bottom {
+    @extend .new-note__bottom;
+    display: flex;
+  }
+  &-color {
+    position: relative;
+    &:hover {
+      .note-popup-color__div {
+        opacity: 1;
+        pointer-events: auto;
+        transition: .5s;
+      }
+    }
+    &__btn {
+      @extend .new-note-color__btn;
+    }
+    &__div {
+      @extend .new-note-color__div;
+    }
+    &__item {
+      @extend .new-note-color__item;
+      &[data-note-color='#ffffff'] {
+        background-color: #ffffff;
+        border: 2px solid #e0e0e0;
+      }
+      &[data-note-color='#cecece'] {
+        background-color: #cecece;
+        border: 2px solid #cecece;
+      }
+      &[data-note-color='#c4b6b6'] {
+        background-color: #c4b6b6;
+        border: 2px solid #c4b6b6;
+      }
+      &[data-note-color='#e59292'] {
+        background-color: #e59292;
+        border: 2px solid #e59292;
+      }
+      &[data-note-color='#edb674'] {
+        background-color: #edb674;
+        border: 2px solid #edb674;
+      }
+      &[data-note-color='#f2f07b'] {
+        background-color: #f2f07b;
+        border: 2px solid #f2f07b;
+      }
+      &[data-note-color='#b2fca4'] {
+        background-color: #b2fca4;
+        border: 2px solid #b2fca4;
+      }
+      &[data-note-color='#96cff7'] {
+        background-color: #96cff7;
+        border: 2px solid #96cff7;
+      }
+      &[data-note-color='#d7adff'] {
+        background-color: #d7adff;
+        border: 2px solid #d7adff;
+      }
+      &:hover {
+        border: 2px solid #9b9b9b;
+      }
+    }
+  }
+  &__btn {
+    @extend .new-note__btn;
+  }
+}
+
+.overlay {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(235, 235, 235, 0.6);
+  z-index: 5;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: 1s;
 }

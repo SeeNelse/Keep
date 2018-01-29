@@ -5,55 +5,79 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">
-  <title>Главная</title>
+  <title>Keep</title>
   <meta name='description' content="" />
   <meta name="keywords" content="" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
 <body>
-  <header class="header">
-    <div class="header-left">
-      <i class="fas fa-bars header__menu-btn"></i>
-      <h1 class="header__head">Keep</h1>
-    </div>
-    <div class="header-right">
-      <div class="header-main-style">
-        <i class="icon-align-justify header-main-style__item one-in-column"></i>
-        <i class="icon-th-large header-main-style__item two-in-column"></i>
-        <i class="icon-th header-main-style__item three-in-column"></i>
+  <div class="main-wrapper">
+    <header class="header">
+      <div class="header-left">
+        <i class="fas fa-bars header__menu-btn"></i>
+        <h1 class="header__head">Keep</h1>
       </div>
-    </div>
-  </header>
-  <div class="main">
-    <div class="wrapper">
-      <div class="new-note">
-        <input type="text" class="new-note__head" placeholder="Заголовок">
-        <textarea class="new-note__text" placeholder="Запись..."></textarea>
-        <div class="new-note__bottom">
-          <div class="new-note-color">
-            <i class="icon-brush new-note-color__btn"></i>
-            <div class="new-note-color__div">
-              <div class="new-note-color__item" data-note-color="#ffffff"></div>
-              <div class="new-note-color__item" data-note-color="#cecece"></div>
-              <div class="new-note-color__item" data-note-color="#c4b6b6"></div>
-              <div class="new-note-color__item" data-note-color="#e59292"></div>
-              <div class="new-note-color__item" data-note-color="#edb674"></div>
-              <div class="new-note-color__item" data-note-color="#f2f07b"></div>
-              <div class="new-note-color__item" data-note-color="#b2fca4"></div>
-              <div class="new-note-color__item" data-note-color="#96cff7"></div>
-              <div class="new-note-color__item" data-note-color="#d7adff"></div>
-            </div>
-          </div>
-          <button class="new-note__btn">Записать</button>
+      <div class="header-right">
+        <div class="header-main-style">
+          <i class="icon-align-justify header-main-style__item one-in-column"></i>
+          <i class="icon-th-large header-main-style__item two-in-column"></i>
+          <i class="icon-th header-main-style__item three-in-column"></i>
         </div>
       </div>
-      <div class="note-list"></div>
+    </header>
+    <div class="main">
+      <div class="wrapper">
+        <div class="new-note">
+          <input type="text" class="new-note__head" placeholder="Заголовок">
+          <textarea class="new-note__text" placeholder="Запись..."></textarea>
+          <div class="new-note__bottom">
+            <div class="new-note-color">
+              <i class="icon-brush new-note-color__btn"></i>
+              <div class="new-note-color__div">
+                <div class="new-note-color__item" data-note-color="#ffffff"></div>
+                <div class="new-note-color__item" data-note-color="#cecece"></div>
+                <div class="new-note-color__item" data-note-color="#c4b6b6"></div>
+                <div class="new-note-color__item" data-note-color="#e59292"></div>
+                <div class="new-note-color__item" data-note-color="#edb674"></div>
+                <div class="new-note-color__item" data-note-color="#f2f07b"></div>
+                <div class="new-note-color__item" data-note-color="#b2fca4"></div>
+                <div class="new-note-color__item" data-note-color="#96cff7"></div>
+                <div class="new-note-color__item" data-note-color="#d7adff"></div>
+              </div>
+            </div>
+            <button class="new-note__btn">Записать</button>
+          </div>
+        </div>
+        <div class="note-list"></div>
+        <div class="note-popup">
+          <input type="text" class="note-popup__head" placeholder="Заголовок">
+          <textarea class="note-popup__text" placeholder="Запись..."></textarea>
+          <div class="note-popup__bottom">
+            <div class="note-popup-color">
+              <i class="icon-brush note-popup-color__btn"></i>
+              <div class="note-popup-color__div">
+                <div class="note-popup-color__item" data-note-color="#ffffff"></div>
+                <div class="note-popup-color__item" data-note-color="#cecece"></div>
+                <div class="note-popup-color__item" data-note-color="#c4b6b6"></div>
+                <div class="note-popup-color__item" data-note-color="#e59292"></div>
+                <div class="note-popup-color__item" data-note-color="#edb674"></div>
+                <div class="note-popup-color__item" data-note-color="#f2f07b"></div>
+                <div class="note-popup-color__item" data-note-color="#b2fca4"></div>
+                <div class="note-popup-color__item" data-note-color="#96cff7"></div>
+                <div class="note-popup-color__item" data-note-color="#d7adff"></div>
+              </div>
+            </div>
+            <button class="note-popup__btn">Сохранить</button>
+          </div>
+        </div>
+      </div>
     </div>
+    <footer class="footer"></footer>
   </div>
-  <footer class="footer"></footer>
+  <div class="overlay"></div>
   <script src="js/custom.js"></script>
 </body>
 
