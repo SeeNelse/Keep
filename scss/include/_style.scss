@@ -4,6 +4,7 @@
   flex-direction: column;
   min-height: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 .wrapper {
@@ -81,7 +82,7 @@
 .footer {
   min-height: 50px;
   order: 3;
-  background-color: #e0e;
+  background-color: #fff;
 }
 
 .main {
@@ -229,7 +230,17 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 20px;
+  position: relative;
+  margin-top: 50px;
+  &__main-head {
+    font-weight: 500;
+    font-size: 16px;
+    margin: 0;
+    position: absolute;
+    top: -35px;
+    color: rgb(112, 112, 112);
+    display: none;
+  }
   &__item {
     width: 225px;
     background-color: #ffffff;
@@ -247,6 +258,14 @@
         opacity: 1;
         transition: .5s;
       }
+      .note-list__pin {
+        opacity: .6;
+        transition: .5s;
+        &:hover {
+          opacity: 1;
+          transition: .5s;
+        }
+      }
     }
   }
   &__head {
@@ -257,6 +276,7 @@
     font-size: 16px;
     margin: 0;
     overflow-wrap: break-word;
+    padding-bottom: 20px;
   }
   &__del {
     position: absolute;
@@ -280,13 +300,43 @@
       margin-bottom: -1px;
     }
   }
+  &__pin {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    cursor: pointer;
+    transition: .5s;
+    opacity: 0;
+    i {
+      font-size: 18px;
+    }
+  }
+}
+
+.favorite-note-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: relative;
+  margin-top: 50px;
+  &__head {
+    @extend .note-list__main-head;
+    display: block;
+  }
+  .note-list__item {
+    .note-list__pin {
+      opacity: 1;
+      transform: rotate(-45deg);
+      color: #2752ff;
+    }
+  }
 }
 
 .note-popup {
   @extend .new-note;
   width: 600px;
   position: absolute;
-  top: 25%;
+  top: 150%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -365,6 +415,15 @@
   }
 }
 
+@keyframes overlayOpacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .overlay {
   display: none;
   position: absolute;
@@ -378,4 +437,6 @@
   bottom: 0;
   opacity: 0;
   transition: 1s;
+  animation: overlayOpacity 0.5s linear;
+  animation-fill-mode: forwards;
 }
