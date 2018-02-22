@@ -1,19 +1,29 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
 
 @font-face {
-  font-family: 'fontello';
-  src: url('../fonts/fontello/fontello.eot?45355283');
-  src: url('../fonts/fontello/fontello.eot?45355283#iefix') format('embedded-opentype'),
-       url('../fonts/fontello/fontello.woff2?45355283') format('woff2'),
-       url('../fonts/fontello/fontello.woff?45355283') format('woff'),
-       url('../fonts/fontello/fontello.ttf?45355283') format('truetype'),
-       url('../fonts/fontello/fontello.svg?45355283#fontello') format('svg');
+  font-family: 'keep';
+  src: url('../fonts/fontello/keep.eot?22403122');
+  src: url('../fonts/fontello/keep.eot?22403122#iefix') format('embedded-opentype'),
+       url('../fonts/fontello/keep.woff2?22403122') format('woff2'),
+       url('../fonts/fontello/keep.woff?22403122') format('woff'),
+       url('../fonts/fontello/keep.ttf?22403122') format('truetype'),
+       url('../fonts/fontello/keep.svg?22403122#keep') format('svg');
   font-weight: normal;
   font-style: normal;
 }
-
-[class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "fontello";
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'keep';
+    src: url('../fonts/fontello/keep.svg?22403122#keep') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "keep";
   font-style: normal;
   font-weight: normal;
   speak: none;
@@ -53,3 +63,7 @@
 .icon-th-large:before { content: '\e803'; } /* '' */
 .icon-th:before { content: '\e804'; } /* '' */
 .icon-pin:before { content: '\e805'; } /* '' */
+.icon-tags:before { content: '\e806'; } /* '' */
+.icon-tag:before { content: '\e807'; } /* '' */
+.icon-login:before { content: '\e808'; } /* '' */
+.icon-logout:before { content: '\e809'; } /* '' */

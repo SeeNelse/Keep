@@ -9,11 +9,11 @@
   <meta name='description' content="" />
   <meta name="keywords" content="" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
-  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
-<body>
+<body class="anonymous">
   <div class="main-wrapper">
     <header class="header">
       <div class="header-left">
@@ -25,6 +25,11 @@
           <i class="icon-align-justify header-main-style__item one-in-column"></i>
           <i class="icon-th-large header-main-style__item two-in-column"></i>
           <i class="icon-th header-main-style__item three-in-column"></i>
+        </div>
+        <div class="header-person">
+          <span class="header-person__name">Пользователь</span>
+          <img src="img/avatar.jpg" class="header-person__photo">
+          <span class="header-person__auth"></span>
         </div>
       </div>
     </header>
@@ -80,9 +85,18 @@
         </div>
       </div>
     </div>
-    <footer class="footer"></footer>
+    <div class="login">
+      <div class="login__wrapper">
+        <h3 class="login__head">Вам необходимо ввойти чтобы продолжить</h3>
+        <div class="login__auth"></div>
+      </div>
+    </div>
   </div>
+
   <div class="overlay"></div>
+  <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
+  <script src="js/firebase.js"></script>
   <script src="js/custom.js"></script>
 </body>
 

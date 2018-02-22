@@ -1,10 +1,33 @@
-﻿function ready() {
+﻿initApp();
+// База для всех записей
+var notes = [];
+// Счетчик для id записей
+var notesCounter = 0;
+var notesFavCounter = 0;
 
-  // База для всех записей
-  var notes = [];
-  notes = JSON.parse(localStorage.getItem("notes"));
+function triggerUpdate(data) {
+  notes = data.notesDB || [];
+  notesCounter = data.notesCounter || 0;
+  notesFavCounter = data.notesFavCount || 0;
+  ready();
+}
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    readDB(notes, notesCounter, notesFavCounter);
+    document.querySelector("body").classList.remove('anonymous');
+  }
+});
+
+
+function ready() {
+
+  if(!dataLoaded) {
+    return;
+  }
+
   var notesDB;
-  notes.sort(function (a, b) {
+  notes.sort(function(a, b) {
     if (a.noteId > b.noteId) {
       return 1;
     }
@@ -12,12 +35,6 @@
       return -1;
     }
   });
-  console.log(notes);
-
-  // Счетчик для id записей
-  var notesCounter = 0;
-  notesCounter = JSON.parse(localStorage.getItem("notesCounter"));
-  var notesCounterLocal;
 
   var noteDiv = document.querySelector(".new-note"); // Основыной блок
   var noteText = document.querySelector(".new-note__text"); // Текст
@@ -52,11 +69,8 @@
 
   // Обновление записей
   function updateDB() {
-    notesDB = JSON.stringify(notes);
-    localStorage.setItem("notes", notesDB);
-    
-    notesCounterLocal = JSON.stringify(notesCounter);
-    localStorage.setItem("notesCounter", notesCounterLocal);
+    writeDB(notes, notesCounter, notesFavCounter);
+    readDB(notes, notesCounter, notesFavCounter);
   }
 
   // Добавляем новую заметку
@@ -70,6 +84,7 @@
         noteText: noteText.value,
         noteHead: noteHead.value,
         colorBg: noteDiv.style.background || "rgb(255, 255, 255)",
+        tags: [],
         noteFavorite: false
       };
       notes.unshift(note);
@@ -89,11 +104,11 @@
   }
 
   // Функция появления заголовка
-  function headVisible(array, object) {
-    if (array.length === 0) {
-      object.style.display = "none";
-    } else {
+  function headVisible(div, object) {
+    if (div.children.length >= 2) {
       object.style.display = "block";
+    } else {
+      object.style.display = "none";
     }
   }
 
@@ -103,20 +118,54 @@
       remove = document.createElement("span"),
       title = document.createElement("h6"),
       text = document.createElement("p"),
-      favorite = document.createElement("span");
+      favorite = document.createElement("span"),
+      tags = document.createElement("span");
 
     div.className = "note-list__item";
     remove.className = "note-list__del";
     favorite.className = "note-list__pin";
+    tags.className = "note-list-tags";
     text.className = "note-list__text";
     title.className = "note-list__head";
 
     remove.innerHTML = "<i class='icon-cancel'></i>";
     favorite.innerHTML = "<i class='icon-pin'></i>";
+    tags.innerHTML = "<i class='icon-tags'></i><div class='note-list-tags__block'><div class='note-list-tags__top'><input type='text' class='note-list-tags__input'><span>+</span></div></div>";
     text.innerHTML = newNote.noteText;
     title.innerHTML = newNote.noteHead;
 
-    // Клик по "Закрепить заметку(пин)"
+    addRemoveListner(remove, newNote);
+    div.setAttribute("data-item-number", (newNote.noteId));
+    div.appendChild(remove);
+    div.appendChild(title);
+    if (noteHead.value.length > 0) {
+      title.style.marginBottom = "10px"
+    }
+    div.appendChild(text);
+    div.appendChild(favorite);
+    div.appendChild(tags);
+    mainDiv.insertBefore(div, mainDiv.firstChild);
+    headVisible(mainDiv, document.querySelector(".note-list__main-head"));
+    div.style.background = newNote.colorBg; // Сбивание бэкграунда у основного блока
+    if (text.innerHTML.length < 51) {
+      text.style.lineHeight = "30px";
+      text.style.fontSize = "27px";
+    } else if (text.innerHTML.length < 81) {
+      text.style.lineHeight = "25px";
+      text.style.fontSize = "20px";
+    }
+    if (!title.innerHTML) {
+      title.style.marginBottom = "0px";
+    } else {
+      title.style.marginBottom = "10px";
+    }
+
+    favoritePinBtn(favorite, newNote) // Клик по "Закрепить заметку(пин)"
+    editNoteFunc() // Нажатие на заметку, для её редактирования
+  }
+
+  // Клик по "Закрепить заметку(пин)"
+  function favoritePinBtn(favorite, newNote) {
     favorite.addEventListener('click', function() {
       var thisNoteElement = favorite.parentNode;
       var thisNoteId = thisNoteElement.getAttribute("data-item-number");
@@ -138,62 +187,18 @@
         });
       }
     });
-
-    addRemoveListner(remove, newNote);
-    div.setAttribute("data-item-number", (newNote.noteId));
-    div.appendChild(remove);
-    div.appendChild(title);
-    if (noteHead.value.length > 0) {
-      title.style.marginBottom = "10px"
-    }
-    div.appendChild(text);
-    div.appendChild(favorite);
-    mainDiv.insertBefore(div, mainDiv.firstChild);
-    headVisible(notes, document.querySelector(".note-list__main-head"));
-    div.style.background = newNote.colorBg; // Сбивание бэкграунда у основного блока
-
-    if (noteText.value.length < 51) {
-      text.style.lineHeight = "30px";
-      text.style.fontSize = "27px";
-    } else if (noteText.value.length < 81) {
-      text.style.lineHeight = "25px";
-      text.style.fontSize = "20px";
-    }
-    if (!title.innerHTML) {
-      title.style.marginBottom = "0px";
-    } else {
-      title.style.marginBottom = "10px";
-    }
-
-    // Нажатие на заметку, для её редактирования
-    var noteItem = document.querySelector(".note-list__item"); // Заметка
-    if (noteItem) {
-      noteItem.addEventListener("click", function() {
-        if (event.target.tagName === "I") { // Проверка клика. Если клик на удаление, то далее код не срабатывает
-          return;
-        }
-        currentNoteId = +noteItem.getAttribute("data-item-number");
-        var textValue,
-          headValue;
-        if (!noteItem.querySelector('.note-list__head')) {
-          textValue = noteItem.childNodes[1].innerHTML;
-        } else {
-          textValue = noteItem.childNodes[2].innerHTML;
-          headValue = noteItem.childNodes[1].innerHTML;
-        }
-        popUpCall();
-        editNote(textValue, headValue);
-      });
-    }
   }
+
   // Рендер заметок в избранные и обратно
   function favoritePin(elementInArray, elementInPage, isFromInit) {
     var cacheElementId;
     var cacheElementDOM;
     var cloneElement;
     if (elementInArray.noteFavorite === true) {
+      // elementInArray.noteFavoritePos = notesFavCounter++;
       favoriteList.insertBefore(elementInPage, favoriteList.firstChild);
     } else {
+      elementInArray.noteFavoritePos = null;
       if (isFromInit) {
         return;
       }
@@ -207,8 +212,32 @@
         }
       });
       cacheElementDOM = document.querySelector(".note-list__item[data-item-number='" + cacheElementId + "']");
-      console.log(cacheElementDOM);
       mainDiv.insertBefore(elementInPage, cacheElementDOM);
+    }
+    headVisible(favoriteList, document.querySelector(".favorite-note-list__head"));
+  }
+
+  // Нажатие на заметку, для её редактирования
+  function editNoteFunc() {
+    var noteItem = document.querySelector(".note-list__item"); // Заметка
+    if (noteItem) {
+      noteItem.addEventListener("click", function(event) {
+        if (event.target.className !== 'note-list__item' && event.target.className !== 'note-list__head' && event.target.className !== 'note-list__text') {
+          return;
+        }
+        currentNoteId = +noteItem.getAttribute("data-item-number");
+        var textValue,
+          headValue;
+        if (!noteItem.querySelector('.note-list__head')) {
+          textValue = noteItem.childNodes[1].innerHTML;
+        } else {
+          textValue = noteItem.childNodes[2].innerHTML;
+          headValue = noteItem.childNodes[1].innerHTML;
+        }
+
+        popUpCall();
+        editNote(textValue, headValue);
+      });
     }
   }
 
@@ -360,7 +389,7 @@
       });
       notes.splice(arrayId, 1);
       thisDiv.parentNode.removeChild(thisDiv);
-      headVisible(notes, document.querySelector(".note-list__main-head"));
+      headVisible(mainDiv, document.querySelector(".note-list__main-head"));
       updateDB();
     });
   }

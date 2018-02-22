@@ -137,9 +137,19 @@ template { display: none; }
 /** Add the correct display in IE 10-. */
 [hidden] { display: none; }
 
-@font-face { font-family: 'fontello'; src: url("../fonts/fontello/fontello.eot?45355283"); src: url("../fonts/fontello/fontello.eot?45355283#iefix") format("embedded-opentype"), url("../fonts/fontello/fontello.woff2?45355283") format("woff2"), url("../fonts/fontello/fontello.woff?45355283") format("woff"), url("../fonts/fontello/fontello.ttf?45355283") format("truetype"), url("../fonts/fontello/fontello.svg?45355283#fontello") format("svg"); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'keep'; src: url("../fonts/fontello/keep.eot?22403122"); src: url("../fonts/fontello/keep.eot?22403122#iefix") format("embedded-opentype"), url("../fonts/fontello/keep.woff2?22403122") format("woff2"), url("../fonts/fontello/keep.woff?22403122") format("woff"), url("../fonts/fontello/keep.ttf?22403122") format("truetype"), url("../fonts/fontello/keep.svg?22403122#keep") format("svg"); font-weight: normal; font-style: normal; }
 
-[class^="icon-"]:before, [class*=" icon-"]:before { font-family: "fontello"; font-style: normal; font-weight: normal; speak: none; display: inline-block; text-decoration: inherit; width: 1em; margin-right: .2em; text-align: center; /* opacity: .8; */ /* For safety - reset parent styles, that can break glyph codes*/ font-variant: normal; text-transform: none; /* fix buttons height, for twitter bootstrap */ line-height: 1em; /* Animation center compensation - margins should be symmetric */ /* remove if not needed */ margin-left: .2em; /* you can be more comfortable with increased icons size */ /* font-size: 120%; */ /* Font smoothing. That was taken from TWBS */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; /* Uncomment for 3D effect */ /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */ }
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'keep';
+    src: url('../fonts/fontello/keep.svg?22403122#keep') format('svg');
+  }
+}
+*/
+[class^="icon-"]:before, [class*=" icon-"]:before { font-family: "keep"; font-style: normal; font-weight: normal; speak: none; display: inline-block; text-decoration: inherit; width: 1em; margin-right: .2em; text-align: center; /* opacity: .8; */ /* For safety - reset parent styles, that can break glyph codes*/ font-variant: normal; text-transform: none; /* fix buttons height, for twitter bootstrap */ line-height: 1em; /* Animation center compensation - margins should be symmetric */ /* remove if not needed */ margin-left: .2em; /* you can be more comfortable with increased icons size */ /* font-size: 120%; */ /* Font smoothing. That was taken from TWBS */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; /* Uncomment for 3D effect */ /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */ }
 
 .icon-brush:before { content: '\e800'; }
 
@@ -159,6 +169,18 @@ template { display: none; }
 .icon-pin:before { content: '\e805'; }
 
 /* '' */
+.icon-tags:before { content: '\e806'; }
+
+/* '' */
+.icon-tag:before { content: '\e807'; }
+
+/* '' */
+.icon-login:before { content: '\e808'; }
+
+/* '' */
+.icon-logout:before { content: '\e809'; }
+
+/* '' */
 .clearfix:after, .clearfix:before { content: " "; display: table; clear: both; }
 
 a { text-decoration: none; }
@@ -175,7 +197,15 @@ a:focus { text-decoration: none; }
 
 html { height: 100%; }
 
-body { height: 100%; font: 14px/24px 'Roboto', sans-serif; background-color: #e8e8e8; }
+body { height: 100%; font: 14px/24px 'Roboto', sans-serif; background-color: #e8e8e8; position: relative; }
+
+body.anonymous .main .wrapper { display: none; }
+
+body.anonymous .login { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; }
+
+.support-window, .new-note-color:after, .note-list__del:after, .note-list__pin:after, .note-list-tags .icon-tags:after, .note-popup-color:after { position: absolute; width: 0; overflow: hidden; font-size: 12px; background-color: rgba(100, 100, 100, 0.473); color: #fff; text-align: center; white-space: nowrap; bottom: -27px; right: 50%; -webkit-transform: translateX(50%); -ms-transform: translateX(50%); transform: translateX(50%); opacity: 0; z-index: 1; font-style: normal; }
+
+.support-window:hover, .new-note-color:hover:after, .note-list__del:hover:after, .note-list__pin:hover:after, .note-list-tags .icon-tags:hover:after, .note-popup-color:hover:after { width: auto; -webkit-transition: .5s; transition: .5s; padding: 0 5px; opacity: 1; }
 
 .main-wrapper { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-pack: start; -webkit-justify-content: flex-start; -ms-flex-pack: start; justify-content: flex-start; -webkit-box-orient: vertical; -webkit-box-direction: normal; -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; min-height: 100%; position: relative; overflow: hidden; }
 
@@ -199,7 +229,15 @@ body { height: 100%; font: 14px/24px 'Roboto', sans-serif; background-color: #e8
 
 .header-main-style__item:hover { opacity: 1; }
 
-.footer { min-height: 50px; -webkit-box-ordinal-group: 4; -webkit-order: 3; -ms-flex-order: 3; order: 3; background-color: #fff; }
+.header-person { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-direction: row; -ms-flex-direction: row; flex-direction: row; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; margin-left: 30px; }
+
+.header-person__name { font-size: 16px; font-weight: 500; }
+
+.header-person__photo { width: 40px; height: 40px; border-radius: 50%; margin: 0 15px; }
+
+.header-person__auth { font-size: 18px; cursor: pointer; opacity: .6; }
+
+.header-person__auth:hover { opacity: 1; }
 
 .main { -webkit-box-ordinal-group: 3; -webkit-order: 2; -ms-flex-order: 2; order: 2; -webkit-box-flex: 1; -webkit-flex-grow: 1; -ms-flex-positive: 1; flex-grow: 1; display: inherit; }
 
@@ -218,6 +256,8 @@ body { height: 100%; font: 14px/24px 'Roboto', sans-serif; background-color: #e8
 .new-note-color { position: relative; }
 
 .new-note-color:hover .new-note-color__div, .new-note-color:hover .note-popup-color__div { opacity: 1; pointer-events: auto; -webkit-transition: .5s; transition: .5s; }
+
+.new-note-color:after { content: 'Задать цвет'; }
 
 .new-note-color__btn, .note-popup-color__btn { color: #424242; padding: 0 4px; font-size: 16px; }
 
@@ -255,11 +295,17 @@ body { height: 100%; font: 14px/24px 'Roboto', sans-serif; background-color: #e8
 
 .note-list__item:hover { box-shadow: 0px 0px 19px -5px rgba(0, 0, 0, 0.75); -webkit-transition: .5s; transition: .5s; }
 
-.note-list__item:hover .note-list__del { opacity: 1; -webkit-transition: .5s; transition: .5s; }
+.note-list__item:hover .note-list__del { opacity: .6; -webkit-transition: .5s; transition: .5s; }
+
+.note-list__item:hover .note-list__del:hover { opacity: 1; -webkit-transition: .5s; transition: .5s; }
 
 .note-list__item:hover .note-list__pin { opacity: .6; -webkit-transition: .5s; transition: .5s; }
 
 .note-list__item:hover .note-list__pin:hover { opacity: 1; -webkit-transition: .5s; transition: .5s; }
+
+.note-list__item:hover .note-list-tags { opacity: .6; -webkit-transition: .5s; transition: .5s; }
+
+.note-list__item:hover .note-list-tags:hover { opacity: 1; -webkit-transition: .5s; transition: .5s; }
 
 .note-list__head { font-size: 18px; margin: 0; }
 
@@ -269,15 +315,27 @@ body { height: 100%; font: 14px/24px 'Roboto', sans-serif; background-color: #e8
 
 .note-list__del i { font-size: 18px; margin-bottom: -1px; }
 
+.note-list__del:after { content: 'Закрыть'; }
+
 .note-list__pin { position: absolute; bottom: 5px; right: 5px; cursor: pointer; -webkit-transition: .5s; transition: .5s; opacity: 0; }
+
+.note-list__pin:after { content: 'Закрепить заметку'; }
 
 .note-list__pin i { font-size: 18px; }
 
+.note-list-tags { position: absolute; bottom: 5px; right: 35px; opacity: 1; -webkit-transition: .5s; transition: .5s; }
+
+.note-list-tags .icon-tags { font-size: 16px; cursor: pointer; }
+
+.note-list-tags .icon-tags:after { content: 'Теги'; }
+
+.note-list-tags__block { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; background-color: #fff; position: absolute; display: none; }
+
 .favorite-note-list { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-direction: row; -ms-flex-direction: row; flex-direction: row; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap; position: relative; margin-top: 50px; }
 
-.favorite-note-list__head { display: block; }
+.favorite-note-list .note-list__item .note-list__pin { opacity: 1; color: #2752ff; }
 
-.favorite-note-list .note-list__item .note-list__pin { opacity: 1; -webkit-transform: rotate(-45deg); -ms-transform: rotate(-45deg); transform: rotate(-45deg); color: #2752ff; }
+.favorite-note-list .note-list__item .note-list__pin .icon-pin:before { -webkit-transform: rotate(-45deg); -ms-transform: rotate(-45deg); transform: rotate(-45deg); }
 
 .note-popup { width: 600px; position: absolute; top: 150%; left: 50%; -webkit-transform: translateX(-50%); -ms-transform: translateX(-50%); transform: translateX(-50%); z-index: 10; display: none; }
 
@@ -288,6 +346,8 @@ body { height: 100%; font: 14px/24px 'Roboto', sans-serif; background-color: #e8
 .note-popup-color { position: relative; }
 
 .note-popup-color:hover .note-popup-color__div { opacity: 1; pointer-events: auto; -webkit-transition: .5s; transition: .5s; }
+
+.note-popup-color:after { content: 'Поменять цвет'; }
 
 .note-popup-color__item[data-note-color='#ffffff'] { background-color: #ffffff; border: 2px solid #e0e0e0; }
 
@@ -308,6 +368,10 @@ body { height: 100%; font: 14px/24px 'Roboto', sans-serif; background-color: #e8
 .note-popup-color__item[data-note-color='#d7adff'] { background-color: #d7adff; border: 2px solid #d7adff; }
 
 .note-popup-color__item:hover { border: 2px solid #9b9b9b; }
+
+.login { display: none; overflow: hidden; position: fixed; background: #ffffff; width: 400px; height: 170px; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-direction: row; -ms-flex-direction: row; flex-direction: row; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; -webkit-box-pack: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
+
+.login__head { margin-top: 0; }
 
 @-webkit-keyframes overlayOpacity { from { opacity: 0; }
   to { opacity: 1; } }

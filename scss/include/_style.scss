@@ -1,3 +1,35 @@
+body.anonymous {
+  .main .wrapper {
+    display: none;
+  }
+  .login {
+    display: flex;
+  }
+}
+
+.support-window {
+  position: absolute;
+  width: 0;
+  overflow: hidden;
+  font-size: 12px;
+  background-color: rgba(100, 100, 100, 0.473);
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  bottom: -27px;
+  right: 50%;
+  transform: translateX(50%);
+  opacity: 0;
+  z-index: 1;
+  font-style: normal;
+  &:hover {
+    width: auto;
+    transition: .5s;
+    padding: 0 5px;
+    opacity: 1;
+  }
+}
+
 .main-wrapper {
   display: flex;
   justify-content: flex-start;
@@ -51,12 +83,12 @@
       margin-top: -2px;
       opacity: .6;
       &:hover {
-        background: rgba(255,255,255,0.5);
+        background: rgba(255, 255, 255, 0.5);
         opacity: 1;
       }
     }
   }
-  &-right  {
+  &-right {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -77,12 +109,30 @@
       }
     }
   }
-}
-
-.footer {
-  min-height: 50px;
-  order: 3;
-  background-color: #fff;
+  &-person {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 30px;
+    &__name {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    &__photo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin: 0 15px;
+    }
+    &__auth {
+      font-size: 18px;
+      cursor: pointer;
+      opacity: .6;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 }
 
 .main {
@@ -99,11 +149,11 @@
   background-color: #fff;
   transition: .5s;
   padding: 10px;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.2), 0 1px 5px 0 rgba(0,0,0,0.12);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   &__head {
     display: none;
     padding: 4px;
-    outline:none;
+    outline: none;
     border: none;
     font-weight: 600;
     color: #424242;
@@ -114,7 +164,7 @@
   &__text {
     resize: none;
     padding: 4px;
-    outline:none;
+    outline: none;
     border: none;
     color: #424242;
     background: transparent;
@@ -134,7 +184,7 @@
     color: #424242;
     border: none;
     background: none;
-    outline:none;
+    outline: none;
     cursor: pointer;
     &:hover {
       background: #dbdbdb;
@@ -149,6 +199,10 @@
         pointer-events: auto;
         transition: .5s;
       }
+    }
+    &:after {
+      content: 'Задать цвет';
+      @extend .support-window;
     }
     &__btn {
       color: #424242;
@@ -167,7 +221,7 @@
       position: absolute;
       top: -110px;
       background: #fff;
-      box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.4);
+      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.4);
       padding: 5px;
       &:after {
         content: '';
@@ -255,10 +309,22 @@
       box-shadow: 0px 0px 19px -5px rgba(0, 0, 0, 0.75);
       transition: .5s;
       .note-list__del {
-        opacity: 1;
+        opacity: .6;
         transition: .5s;
+        &:hover {
+          opacity: 1;
+          transition: .5s;
+        }
       }
       .note-list__pin {
+        opacity: .6;
+        transition: .5s;
+        &:hover {
+          opacity: 1;
+          transition: .5s;
+        }
+      }
+      .note-list-tags {
         opacity: .6;
         transition: .5s;
         &:hover {
@@ -292,12 +358,16 @@
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
     opacity: 0;
     transition: .5s;
     i {
       font-size: 18px;
       margin-bottom: -1px;
+    }
+    &:after {
+      content: 'Закрыть';
+      @extend .support-window;
     }
   }
   &__pin {
@@ -307,8 +377,35 @@
     cursor: pointer;
     transition: .5s;
     opacity: 0;
+    &:after {
+      content: 'Закрепить заметку';
+      @extend .support-window;
+    }
     i {
       font-size: 18px;
+    }
+  }
+  &-tags {
+    position: absolute;
+    bottom: 5px;
+    right: 35px;
+    // opacity: 0;
+    opacity: 1;
+    transition: .5s;
+    .icon-tags {
+      font-size: 16px;
+      cursor: pointer;
+      &:after {
+        content: 'Теги';
+        @extend .support-window;
+      }
+    }
+    &__block {
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      position: absolute;
+      display: none;
     }
   }
 }
@@ -321,12 +418,15 @@
   margin-top: 50px;
   &__head {
     @extend .note-list__main-head;
-    display: block;
   }
   .note-list__item {
     .note-list__pin {
+      .icon-pin {
+        &:before {
+          transform: rotate(-45deg);
+        }
+      }
       opacity: 1;
-      transform: rotate(-45deg);
       color: #2752ff;
     }
   }
@@ -360,6 +460,10 @@
         pointer-events: auto;
         transition: .5s;
       }
+    }
+    &:after {
+      content: 'Поменять цвет';
+      @extend .support-window;
     }
     &__btn {
       @extend .new-note-color__btn;
@@ -412,6 +516,24 @@
   }
   &__btn {
     @extend .new-note__btn;
+  }
+}
+
+.login {
+  display: none;
+  overflow: hidden;
+  position: fixed;
+  background: #ffffff;
+  width: 400px;
+  height: 170px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  &__head {
+    margin-top: 0;
   }
 }
 
