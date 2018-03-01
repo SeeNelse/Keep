@@ -27,9 +27,15 @@
           <i class="icon-th header-main-style__item three-in-column"></i>
         </div>
         <div class="header-person">
-          <span class="header-person__name">Пользователь</span>
           <img src="img/avatar.jpg" class="header-person__photo">
-          <span class="header-person__auth"></span>
+          <div class="header-person-div">
+            <img src="img/avatar.jpg" class="header-person__photo_big">
+            <div class="header-person-div__right">
+              <span class="header-person__name">Пользователь</span>
+              <span class="header-person__email"></span>
+              <span class="header-person__auth"></span>
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -92,7 +98,12 @@
       </div>
     </div>
   </div>
-
+  <div class="loading">
+    <div class="spinner">
+      <div class="dot1"></div>
+      <div class="dot2"></div>
+    </div>
+  </div>
   <div class="overlay"></div>
   <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>

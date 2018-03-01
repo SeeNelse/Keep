@@ -229,15 +229,21 @@ body.anonymous .login { display: -webkit-box; display: -webkit-flex; display: -m
 
 .header-main-style__item:hover { opacity: 1; }
 
-.header-person { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-direction: row; -ms-flex-direction: row; flex-direction: row; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; margin-left: 30px; }
+.header-person { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-direction: row; -ms-flex-direction: row; flex-direction: row; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; margin-left: 30px; position: relative; }
 
-.header-person__name { font-size: 16px; font-weight: 500; }
+.header-person-div { z-index: 5; display: none; position: absolute; min-width: 350px; right: 0; top: 50px; background-color: #fff; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-direction: row; -ms-flex-direction: row; flex-direction: row; padding: 15px; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
-.header-person__photo { width: 40px; height: 40px; border-radius: 50%; margin: 0 15px; }
+.header-person-div__right { padding-left: 20px; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; width: 100%; }
 
-.header-person__auth { font-size: 18px; cursor: pointer; opacity: .6; }
+.header-person__name { font-size: 18px; font-weight: 500; }
 
-.header-person__auth:hover { opacity: 1; }
+.header-person__photo { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+
+.header-person__photo_big { width: 100px; height: 100px; border-radius: 50%; cursor: auto; }
+
+.header-person__auth { font-size: 14px; cursor: pointer; background: #f8f8f8; border: 1px solid #c6c6c6; -webkit-align-self: flex-end; -ms-flex-item-align: end; align-self: flex-end; align-self: flex-end; margin-top: 20px; padding: 2px 9px; }
+
+.header-person__auth:hover { background-color: #fff; background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f8f8f8)); background-image: -webkit-linear-gradient(top, #fff, #f8f8f8); background-image: -webkit-linear-gradient(top, #fff, #f8f8f8); background-image: linear-gradient(top, #fff, #f8f8f8); box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); }
 
 .main { -webkit-box-ordinal-group: 3; -webkit-order: 2; -ms-flex-order: 2; order: 2; -webkit-box-flex: 1; -webkit-flex-grow: 1; -ms-flex-positive: 1; flex-grow: 1; display: inherit; }
 
@@ -329,7 +335,11 @@ body.anonymous .login { display: -webkit-box; display: -webkit-flex; display: -m
 
 .note-list-tags .icon-tags:after { content: 'Теги'; }
 
-.note-list-tags__block { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; background-color: #fff; position: absolute; display: none; }
+.note-list-tags__block { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; background-color: #fff; position: absolute; }
+
+.note-list-tags__top { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-direction: row; -ms-flex-direction: row; flex-direction: row; }
+
+.note-list-tags__plus { padding: 5px; cursor: pointer; }
 
 .favorite-note-list { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-direction: row; -ms-flex-direction: row; flex-direction: row; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap; position: relative; margin-top: 50px; }
 
@@ -378,6 +388,29 @@ body.anonymous .login { display: -webkit-box; display: -webkit-flex; display: -m
 
 @keyframes overlayOpacity { from { opacity: 0; }
   to { opacity: 1; } }
+
+.loading { position: fixed; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; background-color: #fb0; z-index: 1000; opacity: 1; -webkit-transition: 1s; transition: 1s; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-direction: row; -ms-flex-direction: row; flex-direction: row; -webkit-box-pack: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; }
+
+.loading.hide { opacity: 0; -webkit-transition: 1s; transition: 1s; pointer-events: none; }
+
+.loading .spinner { width: 40px; height: 40px; position: relative; text-align: center; -webkit-animation: sk-rotate 2.0s infinite linear; animation: sk-rotate 2.0s infinite linear; }
+
+.loading .dot1, .loading .dot2 { width: 60%; height: 60%; display: inline-block; position: absolute; top: 0; background-color: #000000; border-radius: 100%; -webkit-animation: sk-bounce 2.0s infinite ease-in-out; animation: sk-bounce 2.0s infinite ease-in-out; }
+
+.loading .dot2 { top: auto; bottom: 0; -webkit-animation-delay: -1.0s; animation-delay: -1.0s; }
+
+@-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg); } }
+
+@keyframes sk-rotate { 100% { transform: rotate(360deg);
+    -webkit-transform: rotate(360deg); } }
+
+@-webkit-keyframes sk-bounce { 0%, 100% { -webkit-transform: scale(0); }
+  50% { -webkit-transform: scale(1); } }
+
+@keyframes sk-bounce { 0%, 100% { transform: scale(0);
+    -webkit-transform: scale(0); }
+  50% { transform: scale(1);
+    -webkit-transform: scale(1); } }
 
 .overlay { display: none; position: absolute; width: 100%; height: 100%; background-color: rgba(235, 235, 235, 0.6); z-index: 5; left: 0; right: 0; top: 0; bottom: 0; opacity: 0; -webkit-transition: 1s; transition: 1s; -webkit-animation: overlayOpacity 0.5s linear; animation: overlayOpacity 0.5s linear; -webkit-animation-fill-mode: forwards; animation-fill-mode: forwards; }
 

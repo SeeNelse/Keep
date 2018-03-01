@@ -4,12 +4,17 @@ var notes = [];
 // Счетчик для id записей
 var notesCounter = 0;
 var notesFavCounter = 0;
+// Список тегов
+var tags;
 
 function triggerUpdate(data) {
   notes = data.notesDB || [];
   notesCounter = data.notesCounter || 0;
   notesFavCounter = data.notesFavCount || 0;
+  tags = data.allTags || [];
+  
   ready();
+  document.querySelector(".loading").classList.add('hide');
 }
 
 firebase.auth().onAuthStateChanged(function(user) {
@@ -18,7 +23,6 @@ firebase.auth().onAuthStateChanged(function(user) {
     document.querySelector("body").classList.remove('anonymous');
   }
 });
-
 
 function ready() {
 
@@ -51,13 +55,29 @@ function ready() {
   var notePopUp = document.querySelector(".note-popup"); // Попап редактирования
   var popUpColor = document.querySelectorAll(".note-popup-color__item"); // Цвета в поп-апе
 
-  // Рендер заметок с локалсторейдж
+  // Окно пользователя
+  var userBtn = document.querySelector(".header-person__photo");
+  var userDiv = document.querySelector(".header-person-div")
+
+  // Рендер заметок
   notes.forEach(function(note) {
     renderNote(note);
   });
-
+  
   // Рендер фаворит заметок
-  notes.forEach(function(element, index) {
+  var notesFav = notes.slice();
+  notesFav.sort(function(a, b) {
+    if (!a.noteFavoritePos) {
+      return 1;
+    }
+    if (a.noteFavoritePos > b.noteFavoritePos) {
+      return 1;
+    }
+    if (a.noteFavoritePos < b.noteFavoritePos) {
+      return -1;
+    }
+  });
+  notesFav.forEach(function(element, index) {
     for (var l = 0; l < mainDiv.children.length; l++) {
       var currentItem = mainDiv.children[l];
       if (element.noteId === +currentItem.getAttribute("data-item-number")) {
@@ -69,8 +89,8 @@ function ready() {
 
   // Обновление записей
   function updateDB() {
-    writeDB(notes, notesCounter, notesFavCounter);
-    readDB(notes, notesCounter, notesFavCounter);
+    writeDB(notes, notesCounter, notesFavCounter, tags);
+    readDB(notes, notesCounter, notesFavCounter, tags);
   }
 
   // Добавляем новую заметку
@@ -85,7 +105,8 @@ function ready() {
         noteHead: noteHead.value,
         colorBg: noteDiv.style.background || "rgb(255, 255, 255)",
         tags: [],
-        noteFavorite: false
+        noteFavorite: false,
+        noteFavoritePos: null,
       };
       notes.unshift(note);
       noteDiv.style.background = "#ffffff";
@@ -130,7 +151,7 @@ function ready() {
 
     remove.innerHTML = "<i class='icon-cancel'></i>";
     favorite.innerHTML = "<i class='icon-pin'></i>";
-    tags.innerHTML = "<i class='icon-tags'></i><div class='note-list-tags__block'><div class='note-list-tags__top'><input type='text' class='note-list-tags__input'><span>+</span></div></div>";
+    tags.innerHTML = "<i class='icon-tags'></i><div class='note-list-tags__block'><div class='note-list-tags__top'><input type='text' class='note-list-tags__input'><span class='note-list-tags__plus'>+</span></div></div>";
     text.innerHTML = newNote.noteText;
     title.innerHTML = newNote.noteHead;
 
@@ -160,8 +181,9 @@ function ready() {
       title.style.marginBottom = "10px";
     }
 
-    favoritePinBtn(favorite, newNote) // Клик по "Закрепить заметку(пин)"
-    editNoteFunc() // Нажатие на заметку, для её редактирования
+    favoritePinBtn(favorite, newNote); // Клик по "Закрепить заметку(пин)"
+    editNoteFunc(); // Нажатие на заметку, для её редактирования
+    addTag(); // Функция добавления тега
   }
 
   // Клик по "Закрепить заметку(пин)"
@@ -195,9 +217,15 @@ function ready() {
     var cacheElementDOM;
     var cloneElement;
     if (elementInArray.noteFavorite === true) {
-      // elementInArray.noteFavoritePos = notesFavCounter++;
+      if (!elementInArray.noteFavoritePos) {
+        notesFavCounter++;
+        elementInArray.noteFavoritePos = notesFavCounter;
+      }
+      elementInPage.setAttribute('data-fav-number', elementInArray.noteFavoritePos);
+
       favoriteList.insertBefore(elementInPage, favoriteList.firstChild);
     } else {
+      elementInPage.removeAttribute('data-fav-number');
       elementInArray.noteFavoritePos = null;
       if (isFromInit) {
         return;
@@ -214,7 +242,25 @@ function ready() {
       cacheElementDOM = document.querySelector(".note-list__item[data-item-number='" + cacheElementId + "']");
       mainDiv.insertBefore(elementInPage, cacheElementDOM);
     }
+    updateDB();
     headVisible(favoriteList, document.querySelector(".favorite-note-list__head"));
+  }
+
+  // Функция добавление тега
+  function addTag() {
+    var plusTagBtn = document.querySelectorAll(".note-list-tags__plus");
+    var inputTag = document.querySelector(".note-list-tags__input");
+    // Добавление тега
+    for (var i = 0; i < plusTagBtn.length; i++) {
+      
+      var old_element = plusTagBtn[i];
+      var new_element = old_element.cloneNode(true);
+      old_element.parentNode.replaceChild(new_element, old_element);
+
+      new_element.addEventListener("click", function addTagClick(event) {
+        console.log(event.target);
+      });
+    }
   }
 
   // Нажатие на заметку, для её редактирования
@@ -355,7 +401,8 @@ function ready() {
     noteBot.style.display = "flex";
   });
 
-  window.addEventListener("click", function() {
+
+  window.addEventListener("click", function(event) {
     if (isDescendant(noteDiv, event.target) || noteHead.value !== "") {
       return;
     }
@@ -394,5 +441,25 @@ function ready() {
     });
   }
 
+  // Выпадающее окно на клику на аватар
+  var userDivIsOpen = false;
+  userBtn.addEventListener("click", function(e) {
+    if (userDiv.style.display === "flex") {
+      userDivIsOpen = false;
+      userDiv.style.display = "none";
+    } else {
+      userDivIsOpen = true;
+      userDiv.style.display = "flex";
+    }
+  });
+  document.addEventListener("click", function(e) {
+    console.log('1', e.target !== userDiv);
+    console.log('2', !userDiv.contains(e.target))
+    console.log('3', userDivIsOpen)
+    if (e.target !== userDiv && !userDiv.contains(e.target) && e.target !== userBtn && userDivIsOpen) {
+      userDivIsOpen = false;
+      userDiv.style.display = "none";
+    }
+  });
 }
 document.addEventListener("DOMContentLoaded", ready);

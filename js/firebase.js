@@ -16,6 +16,7 @@ var uiConfig = {
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID
   ],
+  // signInFlow: 'popup',
 };
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
 ui.start('.login__auth', uiConfig);
@@ -60,12 +61,14 @@ function initApp() {
       var email = user.email;
       var emailVerified = user.emailVerified;
       var uid = user.uid;
-      document.querySelector('.header-person__auth').innerHTML = '<i class="icon-logout"></i>';
+      document.querySelector('.header-person__auth').innerHTML = 'Выйти';
       document.querySelector('.header-person__name').innerHTML = displayName;
+      document.querySelector('.header-person__email').innerHTML = email;
       document.querySelector('.header-person__photo').setAttribute("src", photoURL);
+      document.querySelector('.header-person__photo_big').setAttribute("src", photoURL);
     } else {
       // Пользователь не авторизован
-      // document.querySelector('.header-person__auth').innerHTML = '<i class="icon-login"></i>';
+      document.querySelector(".loading").classList.add('hide');
     }
   });
   document.querySelector('.header-person__auth').addEventListener('click', toggleSignIn, false);
@@ -75,8 +78,7 @@ function initApp() {
 
 var database = firebase.database();
 
-function writeDB(db, counter, favCount) {
-  console.log('Апдейт сработал!');
+function writeDB(db, counter, favCount, tags) {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       var name = user.displayName,
@@ -88,6 +90,7 @@ function writeDB(db, counter, favCount) {
         notesFavCount: favCount,
         username: name,
         email: email,
+        allTags: tags,
       });
     } else {
       console.log('аноним');
@@ -95,7 +98,7 @@ function writeDB(db, counter, favCount) {
   });
 }
 
-function readDB(db, counter, favCount) {
+function readDB(db, counter, favCount, tags) {
   var user = firebase.auth().currentUser;
   if (user) {
     var uid = user.uid;
@@ -106,6 +109,7 @@ function readDB(db, counter, favCount) {
         db = snap.val();
         dataLoaded = true;
         triggerUpdate(db);
+        document.querySelector(".loading").classList.add('hide');
       }
     });
   }
