@@ -8,10 +8,17 @@ var notesFavCounter = 0;
 var tags;
 
 function triggerUpdate(data) {
-  notes = data.notesDB || [];
-  notesCounter = data.notesCounter || 0;
-  notesFavCounter = data.notesFavCount || 0;
-  tags = data.allTags || [];
+  if (data) {
+    notes = data.notesDB;
+    notesCounter = data.notesCounter;
+    notesFavCounter = data.notesFavCount;
+    tags = data.allTags;
+  } else {
+    notes = [];
+    notesCounter = 0;
+    notesFavCounter = 0;
+    tags = [];
+  }
   
   ready();
   document.querySelector(".loading").classList.add('hide');
