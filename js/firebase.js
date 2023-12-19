@@ -1,12 +1,12 @@
 var dataLoaded = false;
 
 var config = {
-  apiKey: "AIzaSyC_vafacYQvOhe98ZKbj-dS8xTPz9NDpms",
+  apiKey: "key",
   authDomain: "keep-13bd2.firebaseapp.com",
   databaseURL: "https://keep-13bd2.firebaseio.com",
   projectId: "keep-13bd2",
   storageBucket: "keep-13bd2.appspot.com",
-  messagingSenderId: "1024428624148"
+  messagingSenderId: "---"
 };
 firebase.initializeApp(config);
 
